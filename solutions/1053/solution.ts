@@ -1,15 +1,24 @@
 import { assertEquals } from "https://deno.land/std@0.181.0/testing/asserts.ts";
 
 function prevPermOpt1(arr: number[]): number[] {
-  let i = arr.length - 2;
-  while (i >= 0 && arr[i] <= arr[i + 1]) i--;
+  if (arr.length <= 1) return arr;
 
-  if (i === -1) return arr;
+  let i = arr.length - 2;
+  while (i >= 0 && arr[i] <= arr[i + 1]) {
+    i--;
+  }
+
+  if (i < 0) return arr;
 
   let j = arr.length - 1;
-  while (j >= 0 && arr[j] >= arr[i]) j--;
-
-  [arr[i], arr[j]] = [arr[j], arr[i]];
+  while (j > 0) {
+    if (arr[j] < arr[i]) {
+      while (arr[j] === arr[j - 1]) j--;
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+      break;
+    }
+    j--;
+  }
 
   return arr;
 }
